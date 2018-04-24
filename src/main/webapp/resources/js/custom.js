@@ -58,7 +58,7 @@ $(document).ready(function(){
 		
 		$.ajax({
 			url:"/demo/api/themgiohang",
-			type:"GET",
+			type:"POST",
 			data:{
 				maSanPham:maSanPham,
 				maSize:maSize,
@@ -79,7 +79,7 @@ $(document).ready(function(){
 		});
 		
 	});
-	
+	// function tinh tong tien cua gio hang
 	ganTongTienGioHang();
 	function ganTongTienGioHang(){
 		var tongTienSp=0;
@@ -102,6 +102,7 @@ $(document).ready(function(){
 		});
 	}
 	
+	//su kien thay doi so luong cua 1 san pham nao do trong gio hang
 	$(".soluong-giohang").change(function(){
 		var soLuong=parseInt($(this).val());
 		var giaTien=$(this).closest("tr").find(".giatien").attr("data-giatiengh");
@@ -116,6 +117,7 @@ $(document).ready(function(){
 		
 	});
 	
+	//su kien khi out focus khoi input so luong cua san pham
 	$(".soluong-giohang").blur(function(){
 		
 		
@@ -162,6 +164,7 @@ $(document).ready(function(){
 		
 	});
 	
+	//xu ly phan trang them san pham
 	$("body").on("click",".pagination-item",function(){
 		$(".pagination-item").removeClass("active");
 		$(this).addClass("active");
@@ -184,7 +187,7 @@ $(document).ready(function(){
 			}				
 		});
 	})
-	
+	// xu ly nut forwar trong phan trang them san pham
 	$("body").on("click",".forward-page",function(){
 		var soTrangMaxHienTai=0;
 		var tongSoTrang=$("#div-pagination").attr("data-tongsotrang");
@@ -216,7 +219,7 @@ $(document).ready(function(){
 		}
 		
 	});
-	
+	//xu ly nut previous trong phan trang them san pham
 	$("body").on("click",".previous-page",function(){
 		var soTrangMinHienTai=0;
 		
@@ -264,6 +267,7 @@ $(document).ready(function(){
 		})
 	});
 	
+	// xu ly upload hinh anh
 	var files=[];
 	var tenhinhsanpham="";
 	$("#hinhanh").change(function(event){
@@ -336,7 +340,7 @@ $(document).ready(function(){
 			}				
 		});
 	});
-	
+	//xu ly su kien nut cap nhat, an vao se prefill cac thong tin cua san pham ra cho nguoi dung sua
 	var masanphamcapnhat = 0;
 	$("body").on("click",".btn-capnhatsanpham",function(){
 		var masanpham = $(this).attr("data-id");
@@ -383,6 +387,7 @@ $(document).ready(function(){
 		});
 	});
 	
+	// xu ly su kien khi nguoi dung xac nhan cap nhat
 	$("#btn-xacnhancapnhat").click(function(){
 		//ngan ko reload page
 		event.preventDefault();
@@ -433,6 +438,8 @@ $(document).ready(function(){
 		});
 		
 	});
+	
+	//xu ly su kien nut huy cap nhat
 	$("#btn-huycapnhat").click(function(){
 		$("#tensanpham").val("");
 		$("#giatien").val("");
@@ -445,5 +452,133 @@ $(document).ready(function(){
 		$("#btn-xacnhancapnhat").addClass("hidden");
 		$("#btn-themsanpham").removeClass("hidden");
 		$(this).addClass("hidden");
-	})
+	});
+	
+	/*var kiemTraTrangThai = true;
+	$("body").on("change","#tinhtrang",function(){
+		if(kiemTraTrangThai == true){
+			$(this).closest("tr").find(".btn-suahoadon").removeClass("hidden");
+			kiemTraTrangThai = false;
+		}else{
+			$(this).closest("tr").find(".btn-suahoadon").addClass("hidden");
+			kiemTraTrangThai = true;
+		}
+	});*/
+	
+	//xu ly su kien cap nhat tinh trang hoa don
+	$("body").on("click",".btn-suahoadon",function(){
+		var tinhtrang = $(this).closest("tr").find("select").val();
+		var mahoadon = $(this).attr("data-mahoadon");
+		
+		$.ajax({
+			url:"/demo/api/capnhattinhtranghoadon",
+			type:"POST",
+			data:{
+				maHoaDon:mahoadon,
+				tinhTrang:parseInt(tinhtrang)
+				
+			},
+			success:function(value){
+				if(value == "true"){
+					alert("Cập nhật tình trạng hóa đơn thành công !");
+				}else{
+					alert("Cập nhật tình trạng hóa đơn không thành công !");
+				}
+			}				
+		});
+	});
+	
+	//xu ly phan trang them san pham
+	$("body").on("click",".pagination-item-hoadon",function(){
+		$(".pagination-item-hoadon").removeClass("active");
+		$(this).addClass("active");
+		var soTrang=$(this).text();
+		var sanPhamBatDau=(soTrang-1)*5;
+		
+	
+		$.ajax({
+			url:"/demo/api/phantranghoadon",
+			type:"GET",
+			data:{
+				sanPhamBatDau:sanPhamBatDau
+				
+				
+			},
+			success:function(value){
+				var tbodyhoadon = $("#table-hoadon").find("tbody");
+				tbodyhoadon.empty();
+				tbodyhoadon.append(value);
+			}				
+		});
+	});
+	// xu ly nut forwar trong phan trang them san pham
+	$("body").on("click",".forward-page-hoadon",function(){
+		var soTrangMaxHienTai=0;
+		var tongSoTrang=$("#div-pagination-hoadon").attr("data-tongsotrang");
+		
+		$(".pagination-item-hoadon").each(function(){
+			soTrangMaxHienTai=$(this).find(":last-child").text();
+		});
+		
+		if(parseInt(soTrangMaxHienTai) < parseInt(tongSoTrang)){
+			var divpagination=$("#div-pagination-hoadon").find("ul");
+			divpagination.empty();
+			var html = "<ul class='pagination'>";
+			html += "<li class='previous-page-hoadon'><a href='#'><</a></li>";
+			
+			if(parseInt(tongSoTrang) < (parseInt(soTrangMaxHienTai)+3)){
+				for(var i=parseInt(soTrangMaxHienTai)+1 ; i<= parseInt(tongSoTrang) ; i++){
+					html+= "<li class='pagination-item-hoadon'><a href='#'>"+i+"</a></li>";
+				}
+			}else{
+				for(var i=parseInt(soTrangMaxHienTai)+1 ; i<=parseInt(soTrangMaxHienTai)+3 ; i++){
+					html+= "<li class='pagination-item-hoadon'><a href='#'>"+i+"</a></li>";
+				}
+			}
+			
+			html += "<li class='forward-page-hoadon'><a href='#'>></a></li>";
+			html += "</ul>";
+			
+			divpagination.append(html);
+		}
+		
+	});
+	//xu ly nut previous trong phan trang them san pham
+	$("body").on("click",".previous-page-hoadon",function(){
+		var soTrangMinHienTai=0;
+		
+		soTrangMinHienTai=$(".pagination-item-hoadon").first().text();
+		
+		if(parseInt(soTrangMinHienTai) >= 4){
+			$(".pagination-item-hoadon").removeClass("active");
+			var divpagination=$("#div-pagination-hoadon").find("ul");
+			divpagination.empty();
+			var html = "<ul class='pagination'>";
+			html += "<li class='previous-page-hoadon'><a href='#'><</a></li>";
+			for(var i=parseInt(soTrangMinHienTai)-3 ; i<=parseInt(soTrangMinHienTai)-1; i++){
+				html+= "<li class='pagination-item-hoadon'><a href='#'>"+i+"</a></li>";
+			}
+			html += "<li class='forward-page-hoadon'><a href='#'>></a></li>";
+			html += "</ul>";
+			
+			divpagination.append(html);
+		}
+		
+		
+	});
+	
+	$("#btn-themdanhmuc").click(function(){
+		var tendanhmuc = $("#text-tendanhmuc").val();
+		
+		$.ajax({
+			url:"/demo/api/themdanhmuc",
+			type:"POST",
+			data:{
+				tenDanhMuc:tendanhmuc
+			},
+			success:function(value){
+				location.reload();
+			}				
+		});
+	});
 });

@@ -1,5 +1,7 @@
 package com.tuan.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,15 @@ public class ChiTietHoaDonDAO implements ChiTietHoaDonImpl {
 			return true;
 		}
 		return false;
+	}
+	
+	@Transactional
+	@Override
+	public List<ChiTietHoaDon> layChiTietHoaDonTheoMaHoaDon(int maHoaDon) {
+		Session session=sessionFactory.getCurrentSession();
+		String sql ="from chitiethoadon where mahoadon='"+maHoaDon+"'";
+		List<ChiTietHoaDon> listChiTietHoaDon = session.createQuery(sql).getResultList();
+		return listChiTietHoaDon;
 	}
 
 }

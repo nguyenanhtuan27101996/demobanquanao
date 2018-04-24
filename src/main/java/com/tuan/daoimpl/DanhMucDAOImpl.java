@@ -7,4 +7,7 @@ import com.tuan.entity.DanhMucSanPham;
 public interface DanhMucDAOImpl {
 
 	List<DanhMucSanPham> layTatCaDanhMuc();
+	
+	void themDanhMucSanPham(DanhMucSanPham danhMucSanPham);
+	
 }

@@ -80,7 +80,7 @@ public class HoaDon {
 		this.diaChiKhachHang = diaChiKhachHang;
 	}
 
-	public boolean isTinhTrang() {
+	public boolean getTinhTrang() {
 		return tinhTrang;
 	}
 

@@ -1,5 +1,8 @@
 package com.tuan.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +55,7 @@ public class GioHangController {
 		return "giohang";
 	}
 	
-	@PostMapping
+	@PostMapping(produces="text/plain; charset=utf-8")
 	public String themHoaDon(@RequestParam String tenKhachHang, @RequestParam String soDienThoai,
 			@RequestParam String diaChiKhachHang, @RequestParam String hinhThucGiaoHang, @RequestParam String ghiChu,
 			HttpSession httpSession) {
@@ -67,7 +70,7 @@ public class GioHangController {
 			hoaDon.setDiaChiKhachHang(diaChiKhachHang);
 			hoaDon.setHinhThucGiaoHang(hinhThucGiaoHang);
 			hoaDon.setGhiChu(ghiChu);
-			
+			hoaDon.setNgayLap(layNgayThangHienTai());
 			int idHoaDon=hoaDonService.themHoaDon(hoaDon);
 			
 			if (idHoaDon > 0) {
@@ -95,5 +98,14 @@ public class GioHangController {
 		
 		
 		return "giohang";
+	}
+	
+	public String layNgayThangHienTai() {
+		String ngayHienTai = "";
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    Date date = new Date();
+	    ngayHienTai = dateFormat.format(date);
+	     
+		return ngayHienTai;
 	}
 }

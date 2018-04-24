@@ -50,183 +50,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--/content-inner-->
 		<div class="left-content container">
 			<div class="row" style="margin-left: 20px;">
-				<h3 class="text-center" style="color: #1b93e1;">Sản phẩm</h3>
-				<div class="col-md-4 col-sm-12 form-group">
-					<form id="form-sanpham" action="">
-						<label for="tensanpham">Tên sản phẩm:</label>
-	  					<input type="text" class="form-control" id="tensanpham" name="tensanpham"><br>
-	  					
-						<label for="giatien">Giá tiền:</label>
-	  					<input type="text" class="form-control" id="giatien" name="giatien"><br>
-	  					
-	  					<label for="sel1">Danh mục:</label>
-	 					<select class="form-control" id="danhmuc" name="danhmuc">
-	 						<c:forEach var="danhMucSanPham" items="${listDanhMucSanPham }">
-	 								<option value="${danhMucSanPham.getMaDanhMuc() }">
-	 								${danhMucSanPham.getTenDanhMuc() }
-	 								</option>	
-	 						</c:forEach>
-						</select>
-	  
-	  					<label for="mota">Mô tả:</label>
-	  					<textarea class="form-control" rows="5" id="mota" name="mota"></textarea>
-	  					
-	  					<label for="hinhanh">Hình ảnh:</label>
-	  					<input type="file" class="form-control" id="hinhanh" name="hinhanh"><br>
-	  					
-	  					<span>Giới tính: </span>
-	  					<label class="radio-inline"><input type="radio" name="gianhcho" checked="true" value="nam" id="rdonam">Nam</label>
-						<label class="radio-inline"><input type="radio" name="gianhcho" value="nu" id="rdonu">Nữ</label>
-						<br>
-					</form>
-						<hr>
-						<div id="container-chitietsanpham">
-							<div class="chitietsanpham">
-								<p>Chi tiết:</p>
-								<select class="form-control" id="mausanpham" name="mausanpham">
-			 						<c:forEach var="mauSanPham" items="${listMauSanPham }">
-			 								<option value="${mauSanPham.getMaMau() }">
-			 								${mauSanPham.getTenMau()  }
-			 								</option>	
-			 						</c:forEach>	
-								</select>
-								<br>
-					
-								<select class="form-control" id="sizesanpham" name="sizesanpham">
-			 						<c:forEach var="sizeSanPham" items="${listSizeSanPham }">
-			 								<option value="${sizeSanPham.getMaSize() }">
-			 								${sizeSanPham.getSize()  }
-			 								</option>	
-			 						</c:forEach>	
-								</select>
-								<br>
-								<input type="number" min="1" class="form-control" id="soluong" name="soluong" placeholder="Số lượng" value="1">
-								<br>
-								<button class="btn btn-primary btn-themchitietsanpham" style="float: right;">Thêm chi tiết</button>
-								<hr>
-							</div>
-						</div>
-					
-					
-						<div id="chitietsanpham" class="chitietsanpham">
-							<p>Chi tiết:</p>
-							<select class="form-control" id="mausanpham" name="mausanpham">
-		 						<c:forEach var="mauSanPham" items="${listMauSanPham }">
-		 								<option value="${mauSanPham.getMaMau() }">
-		 								${mauSanPham.getTenMau()  }
-		 								</option>	
-		 						</c:forEach>	
-							</select>
+				<h3 class="text-center" style="color: #1b93e1;">Danh mục sản phẩm</h3>
+
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="danhmucsanpham">Danh mục sản phẩm:</label>
 							<br>
-				
-							<select class="form-control" id="sizesanpham" name="sizesanpham">
-		 						<c:forEach var="sizeSanPham" items="${listSizeSanPham }">
-		 								<option value="${sizeSanPham.getMaSize() }">
-		 								${sizeSanPham.getSize()  }
-		 								</option>	
-		 						</c:forEach>	
-							</select>
-							<br>
-							<input type="number" min="1" class="form-control" id="soluong" name="soluong" placeholder="Số lượng" value="1">
-							<br>
-							<button class="btn btn-primary btn-themchitietsanpham" style="float: right;">Thêm chi tiết</button>
-							<hr>
-						</div>
-						
-	  					
-						
-						
-	  					<button id="btn-themsanpham" class="btn btn-success" style="margin-top: 24px;">Thêm</button>
-	  					<button id="btn-xacnhancapnhat" class="btn btn-success hidden" style="margin-top: 24px;">Cập nhật</button>
-	  					<button id="btn-huycapnhat" class="btn btn-danger hidden" style="margin-top: 24px;">Hủy</button>
-				</div>
-				
-				
-				
-				<div class="col-md-8 col-sm-12">
-					<div style="float: right;margin-right: 32px;">	
-						<button id="btn-xoasanpham" class="btn btn-danger">Xóa</button>
-					</div>
-					<table id="table-sanpham" class="table">
-						<thead>
-							<th>Tên sản phẩm</th>
-							<th>Giá tiền</th>
-							<th>Giới tính</th>
-							<th>
-								<div class="checkbox">
-  									<label><input type="checkbox" value="" id="check-all"></label>
-								</div>
-							</th>
-						</thead>
-						<tbody>
-							<c:forEach var="sanPham" items="${listSanPham }">
-								<tr>
-									<td>${sanPham.getTenSanPham() }</td>
-									<td>${sanPham.getGiaTien() }</td>
-									<td>${sanPham.getGianhCho() }</td>
-									<td>
-										<div class="checkbox" style="margin-top:0px !important;">
-											<label><input type="checkbox" value="${sanPham.getMaSanPham() }" class="checkboxsanpham"></label>
-										</div>
-									</td>
-									<td><button class="btn btn-success btn-capnhatsanpham" data-id="${sanPham.getMaSanPham() }">Sửa</button></td>
-								</tr>
-							</c:forEach>
-						</tbody>		
-					</table>
-					<div class="text-center" id="div-pagination" data-tongsotrang="${tongSoTrang}">
-					<ul class="pagination">
-						<c:choose>
-							<c:when test="${tongSoTrang <= 3 }">
-								<c:forEach var="element" begin="1" end="3">
-									<c:choose>
-										<c:when test="${element == 1 }">
-											<li class="active pagination-item"><a href="#">${element }</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="pagination-item"><a href="#">${element }</a></li>
-										</c:otherwise>
-									</c:choose>	
+							<select id="danhmucsanpham" class="form-control">
+								<c:forEach var="danhMuc" items="${listDanhMucSanPham}">
+									<option value="${danhMuc.getMaDanhMuc() }">${danhMuc.getTenDanhMuc() }</option>
 								</c:forEach>
-							</c:when>
+							</select>
+							<br>
 							
-							<c:otherwise>
-								<li class="previous-page"><a href="#"><</a></li>
-								<c:forEach var="element" begin="1" end="3">
-									<c:choose>
-										<c:when test="${element == 1 }">
-											<li class="active pagination-item"><a href="#">${element }</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="pagination-item"><a href="#">${element }</a></li>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-								<li class="forward-page"><a href="#">></a></li>
-							</c:otherwise>
-						</c:choose>
+							<label for="tendanhmuc">Tên danh mục:</label>
+							<br> 
+							<input type="text" class="form-control" name="tenDanhMuc" id="text-tendanhmuc">
+							<br>
+							<input type="submit" value="Thêm" class="btn btn-success" id="btn-themdanhmuc">
 						
-					</ul>
+							
+						</div>
+					</div>
 				</div>
-				</div>
-				
-				
-				<%-- <div class="text-center">
-					<ul class="pagination">
-						<c:forEach var="element" begin="1" end="${tongSoTrang }">
-							<c:choose>
-								<c:when test="${element == 1 }">
-									<li class="active pagination-item"><a href="#">${element }</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="pagination-item"><a href="#">${element }</a></li>
-								</c:otherwise>
-							</c:choose>	
-						</c:forEach>
-						<li class="forward-page"><a href="#">></a></li>
-					</ul>
-				</div> --%>
-				
 				
 			</div>
 			
@@ -253,8 +100,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li><a href='<c:url value="/hoadon/"></c:url>'><i class="fa fa-picture-o"
 							aria-hidden="true"></i><span>Hóa đơn</span>
 						<div class="clearfix"></div></a></li>
-					<li id="menu-academico"><a href='<c:url value="/danhmucsanpham/"></c:url>'><i
-							class="fa fa-bar-chart"></i><span>Danh mục sản phẩm</span>
+					<li id="menu-academico"><a href="charts.html"><i
+							class="fa fa-bar-chart"></i><span>Charts</span>
 						<div class="clearfix"></div></a></li>
 					<li id="menu-academico"><a href="#"><i
 							class="fa fa-list-ul" aria-hidden="true"></i><span> Short

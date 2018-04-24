@@ -33,10 +33,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tuan.entity.ChiTietSanPham;
 import com.tuan.entity.DanhMucSanPham;
 import com.tuan.entity.GioHang;
+import com.tuan.entity.HoaDon;
 import com.tuan.entity.JSON_SanPham;
 import com.tuan.entity.MauSanPham;
 import com.tuan.entity.SanPham;
 import com.tuan.entity.SizeSanPham;
+import com.tuan.service.DanhMucService;
+import com.tuan.service.HoaDonService;
 import com.tuan.service.NhanVienService;
 import com.tuan.service.SanPhamService;
 
@@ -52,7 +55,15 @@ public class ApiController {
 	private SanPhamService sanPhamService;
 	
 	@Autowired
+	private HoaDonService hoaDonService;
+	
+	@Autowired
+	private DanhMucService danhMucService;
+	
+	@Autowired
 	private ServletContext servletContext;
+	
+	
 	@GetMapping("kiemtradangnhap")
 	@ResponseBody
 	public String xuLyDangNhap(@RequestParam String email,@RequestParam String matKhau,ModelMap modelMap) {
@@ -80,7 +91,7 @@ public class ApiController {
 	}
 	
 	
-	@GetMapping("capnhatgiohang")
+	@GetMapping(path = "capnhatgiohang",produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String capNhatGioHang(HttpSession httpSession,@RequestParam int maSanPham,@RequestParam int maSize,
 			@RequestParam int maMau,@RequestParam int soLuong) {
@@ -96,7 +107,7 @@ public class ApiController {
 		return "";
 	}
 	
-	@GetMapping("themgiohang")
+	@PostMapping(path= "themgiohang", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String themGioHang(@RequestParam int maSanPham,@RequestParam int maSize,@RequestParam int maMau,
 			@RequestParam String tenSanPham,@RequestParam String giaTien,@RequestParam String tenMau,
@@ -392,6 +403,59 @@ public class ApiController {
 		}
 		return ""+kiemTra;
 		
+	}
+	
+	@PostMapping(path = "capnhattinhtranghoadon",produces = "text/plain; charset=utf-8")
+	@ResponseBody
+	public String capNhatTinhTrangHoaDon(@RequestParam int maHoaDon, @RequestParam int tinhTrang) {
+		boolean kiemTra = hoaDonService.capNhatTinhTrangHoaDon(maHoaDon, tinhTrang);
+		return ""+kiemTra;
+	}
+	
+	@GetMapping(path="phantranghoadon",produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String phanTrangHoaDon(@RequestParam int sanPhamBatDau) {
+		List<HoaDon> listHoaDon = hoaDonService.layDanhSachHoaDonLimit(sanPhamBatDau, 5);
+		String html ="";
+		
+		for (HoaDon hoaDon : listHoaDon) {
+			html += "<tr>";
+			html += "<td>" + hoaDon.getTenKhachHang() + "</td>";
+			html += "<td>" + hoaDon.getSoDienThoai() + "</td>";
+			html += "<td>" + hoaDon.getDiaChiKhachHang() + "</td>";
+			
+			html += "<td>";
+			html += "<select class='form-control' id='tinhtrang' name='tinhtrang' class='tinhtrang'>";
+			if(hoaDon.getTinhTrang() == false) {
+				html += "<option value='0' selected='selected'>Chưa giao</option>";
+				html += "<option value='1'>Đã giao</option>";
+			}else {
+				html += "<option value='0'>Chưa giao</option>";
+				html += "<option value='1' selected='selected'>Đã giao</option>";
+			}
+			
+			html += "</select>";
+			html += "</td>";
+			
+			html += "<td>" + hoaDon.getNgayLap() + "</td>";
+			html += "<td>" + hoaDon.getHinhThucGiaoHang() + "</td>";
+			html += "<td>" + hoaDon.getGhiChu() + "</td>";
+			html += "<td><a href='/demo/chitiethoadon/"+hoaDon.getMaHoaDon()+"'>Chi tiết</a></td>";
+			html += "<td><button class='btn btn-success btn-suahoadon' data-mahoadon='"+hoaDon.getMaHoaDon()+"'>Sửa</button></td>";
+			html += "</tr>";
+			
+		}
+		
+		return html;
+	}
+	
+	@PostMapping(path = "themdanhmuc", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String themDanhMuc(@RequestParam String tenDanhMuc) {
+		DanhMucSanPham danhMucSanPham = new DanhMucSanPham();
+		danhMucSanPham.setTenDanhMuc(tenDanhMuc);
+		danhMucService.themDanhMucSanPham(danhMucSanPham);
+		return "";
 	}
 	public String layNgayThangHienTai() {
 		String ngayHienTai = "";

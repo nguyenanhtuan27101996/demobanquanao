@@ -1,5 +1,7 @@
 package com.tuan.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,27 @@ public class HoaDonService implements HoaDonDAOImpl{
 	public int themHoaDon(HoaDon hoaDon) {
 		int id = hoaDonDAO.themHoaDon(hoaDon);
 		return id;
+	}
+
+
+	@Override
+	public List<HoaDon> layDanhSachHoaDonLimit(int batDau, int ketThuc) {
+		
+		return hoaDonDAO.layDanhSachHoaDonLimit(batDau, ketThuc);
+	}
+
+
+	@Override
+	public List<HoaDon> layDanhSachTatCaHoaDon() {
+		
+		return hoaDonDAO.layDanhSachTatCaHoaDon();
+	}
+
+
+	@Override
+	public boolean capNhatTinhTrangHoaDon(int maHoaDon, int tinhTrang) {
+		
+		return hoaDonDAO.capNhatTinhTrangHoaDon(maHoaDon, tinhTrang);
 	}
 
 }

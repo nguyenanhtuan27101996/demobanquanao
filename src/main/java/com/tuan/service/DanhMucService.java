@@ -20,6 +20,11 @@ public class DanhMucService implements DanhMucDAOImpl{
 		List<DanhMucSanPham> listDanhMucSanPham = danhMucDAO.layTatCaDanhMuc();
 		return listDanhMucSanPham;
 	}
+
+	@Override
+	public void themDanhMucSanPham(DanhMucSanPham danhMucSanPham) {
+		danhMucDAO.themDanhMucSanPham(danhMucSanPham);		
+	}
 	
 	
 }

@@ -29,5 +29,12 @@ public class DanhMucDAO implements DanhMucDAOImpl{
 		return listDanhMucSanPham;
 	}
 
+	@Transactional
+	@Override
+	public void themDanhMucSanPham(DanhMucSanPham danhMucSanPham) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(danhMucSanPham);
+	}
+
 	
 }

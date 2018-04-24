@@ -1,5 +1,7 @@
 package com.tuan.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,37 @@ public class HoaDonDAO implements HoaDonDAOImpl {
 			return 0;
 		}
 		
+	}
+	@Transactional
+	@Override
+	public List<HoaDon> layDanhSachHoaDonLimit(int batDau, int ketThuc) {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "from hoadon";
+		List<HoaDon> listHoaDonLimit = session.createQuery(sql).setFirstResult(batDau)
+				.setMaxResults(ketThuc).getResultList();
+		
+		return listHoaDonLimit;
+	}
+
+	@Transactional
+	@Override
+	public List<HoaDon> layDanhSachTatCaHoaDon() {
+		Session session = sessionFactory.getCurrentSession();
+		String sql = "from hoadon";
+		List<HoaDon> listHoaDon = session.createQuery(sql).getResultList();
+		
+		return listHoaDon;
+	}
+	
+	@Transactional
+	@Override
+	public boolean capNhatTinhTrangHoaDon(int maHoaDon, int tinhTrang) {
+		String sql = "update from hoadon set tinhtrang ="+tinhTrang+" where mahoadon='"+maHoaDon+"'";
+		Session session = sessionFactory.getCurrentSession();
+		int id  = session.createQuery(sql).executeUpdate();
+		if(id > 0 ) {
+			return true;
+		}
+		return false;
 	}
 }
